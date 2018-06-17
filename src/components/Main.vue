@@ -1,15 +1,34 @@
 <template>
   <div class="hello">
-    <file-upload></file-upload>
+    <nav><router-link v-on:click="logout" to="/login">Logout</router-link></nav>
+    <upload-rom></upload-rom>
+    <button v-on:click="test">Test auth</button>
   </div>
 </template>
 
 <script>
-import FileUpload from './FileUpload';
+import UploadRom from './UploadRom';
 
 export default {
   name: 'Main',
-  components: { 'file-upload': FileUpload },
+  components: { UploadRom },
+  methods: {
+    logout() {
+      this.$http.get('http://localhost:8080/logout')
+        .then((response) => {
+          this.$store.dispatch('logout');
+          this.$router.push('/login');
+        })
+        .catch(error => console.log(error));
+    },
+    test(){
+       this.$http.get('http://localhost:8080/users')
+        .then((response) => {
+          console.log(response);
+        })
+        .catch(error => console.log(error));
+    }
+  }
 };
 </script>
 

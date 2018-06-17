@@ -21,18 +21,17 @@ export default {
     return {
       username: '',
       password: '',
-      error: false
+      error: null
     };
   },
   methods: {
     login() {
       const { username, password } = this;
-      this.$http.post('http://localhost:8080/login', { username, password })
+      this.$http.post('http://localhost:8080/login',{ login: username, password})
         .then((response) => {
           this.$store.dispatch('login', response);
           this.$router.push('/');
-        })
-        .catch(this.error = true);
+        }).catch(error => this.error = error);
     }
   }
 };
