@@ -1,6 +1,8 @@
 <template>
   <div>
   <vue-dropzone
+  v-on:vdropzone-file-added="emitAddedFile"
+  v-on:vdropzone-removed-file="emitRemovedFile"
   ref="myVueDropzone"
   id="dropzone"
   :options="dropzoneOptions">
@@ -12,6 +14,7 @@
 <script>
 import vue2Dropzone from 'vue2-dropzone';
 import 'vue2-dropzone/dist/vue2Dropzone.min.css';
+import EventBus from '../event-bus.js';
 
 export default {
   name: 'FileUpload',
@@ -36,7 +39,7 @@ export default {
     return {
       dropzoneOptions: {
         url: 'http://localhost:8080/roms/upload',
-        thumbnailWidth: 150,
+        maxFiles: 1,
         maxFilesize: 0.5,
         addRemoveLinks: true,
         paramName: this.paramName,
@@ -50,14 +53,26 @@ export default {
     send() {
       return vue2Dropzone.processQueue();
     },
+     send() {
+      return vue2Dropzone.disable();
+    },
     getFiles() {
       return vue2Dropzone.getQueuedFiles();
-    }
+    },
+    emitAddedFile(file){
+      EventBus.$emit('file-added', file);
+    },
+    emitRemovedFile(file, error, xhr){
+      EventBus.$emit('file-removed', {file, error, xhr});
+    },
+
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.dz-progress {
+  display: None;
+}
 </style>

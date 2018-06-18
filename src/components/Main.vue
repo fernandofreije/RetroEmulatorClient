@@ -15,14 +15,14 @@ export default {
   methods: {
     logout() {
       this.$http.get('http://localhost:8080/logout')
-        .then((response) => {
+        .then(() => {
           this.$store.dispatch('logout');
           this.$router.push('/login');
         })
         .catch(error => console.log(error));
     },
-    test(){
-       this.$http.get('http://localhost:8080/users')
+    test() {
+      this.$http.get('http://localhost:8080/users')
         .then((response) => {
           console.log(response);
         })
