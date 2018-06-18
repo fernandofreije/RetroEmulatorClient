@@ -1,9 +1,7 @@
 <template>
   <div>
     <loading
-      :event-bus="eventBus"
-      event-show="show-loading"
-      event-hide="hide-loading"
+      :show="loading"
       :label="label">
     </loading>
     <div>
@@ -24,13 +22,13 @@
         perPage: 10,
       }"
       styleClass="vgt-table striped bordered"/>
-  
   </div>
 </template>
 
 <script>
-import EventBus from '../event-bus.js';
 import loading from 'vue-full-loading';
+import EventBus from '../event-bus';
+
 
 export default {
   name: 'ScrapperSelector',
@@ -44,19 +42,18 @@ export default {
     );
     EventBus.$on('file-removed', () => {
       this.games = [];
-      }
+    }
     );
   },
-  computed:{
-    selected:{
-      get(){
+  computed: {
+    selected: {
+      get() {
         return this.$store.state.uploadRom.selectedGame;
       }
     }
   },
-  data(){
+  data() {
     return {
-      eventBus: EventBus,
       label: 'Getting rom data...',
       gameToSearch: '',
       columns: [
@@ -76,33 +73,42 @@ export default {
           field: 'releaseDate',
           type: 'date',
           dateInputFormat: 'YYYY-MM-DD',
-          dateOutputFormat: 'MMMMMMM Do YYYY',
+          dateOutputFormat: 'MMM Do YYYY',
         },
       ],
-      games: []
+      games: [],
+      loading: false
     };
   },
-  methods:{
-    fillGames(name){
+  methods: {
+    fillGames(name) {
       if (name) {
-        EventBus.$emit('show-loading');
-        this.$http.get('http://localhost:8080/scrap/gameList?name='+name)
-        .then(response => {
-          this.games = response.data;
-          EventBus.$emit('hide-loading');
-        })
-        .catch(err => {
-          console.log(err);
-          this.games = ['An error ocurred requesting the games'];
-          EventBus.$emit('hide-loading');
+        this.loading = true;
+        this.$http.get(`http://localhost:8080/scrap/gameList?name=${name}`)
+          .then((response) => {
+            this.games = response.data;
+            this.loading = false;
+          })
+          .catch(() => {
+            this.games = ['An error ocurred requesting the games'];
+            this.loading = false;
           }
-        );
-      }
-      else
-        this.games = ['No games uploaded'];
+          );
+      } else this.games = ['No games uploaded'];
     },
-    rowSelected(params){
+    rowSelected(params) {
       this.$store.dispatch('selectGameData', params.row);
+      const gameId = this.$store.state.uploadRom.selectedGame.id;
+      this.loading = true;
+      this.$http.get(`http://localhost:8080/scrap/game?id=${gameId}`)
+        .then((response) => {
+          this.$store.dispatch('getGameData', response.data);
+          this.loading = false;
+        })
+        .catch(() => {
+          this.loading = false;
+        }
+        );
     }
   }
 };

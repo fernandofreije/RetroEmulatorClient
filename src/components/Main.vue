@@ -2,7 +2,6 @@
   <div class="hello">
     <nav><router-link v-on:click="logout" to="/login">Logout</router-link></nav>
     <upload-rom></upload-rom>
-    <button v-on:click="test">Test auth</button>
   </div>
 </template>
 
@@ -17,14 +16,6 @@ export default {
       this.$http.get('http://localhost:8080/logout')
         .then(() => {
           this.$store.dispatch('logout');
-          this.$router.push('/login');
-        })
-        .catch(error => console.log(error));
-    },
-    test() {
-      this.$http.get('http://localhost:8080/users')
-        .then((response) => {
-          console.log(response);
         })
         .catch(error => console.log(error));
     }

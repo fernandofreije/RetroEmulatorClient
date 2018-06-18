@@ -10,7 +10,7 @@
      <hr/>
      <button type="submit">Login</button>
    </form>
-   <p v-if="error" class="error">Bad login information</p>
+   <p v-if="error" class="error">Bad login information </p>
  </div>
 </template>
 
@@ -27,11 +27,9 @@ export default {
   methods: {
     login() {
       const { username, password } = this;
-      this.$http.post('http://localhost:8080/login',{ login: username, password})
-        .then((response) => {
-          this.$store.dispatch('login', response);
-          this.$router.push('/');
-        }).catch(error => this.error = error);
+      this.$http.post('http://localhost:8080/login', { login: username, password })
+        .then(response => this.$store.dispatch('login', response.data.user))
+        .catch((error) => { this.error = error; });
     }
   }
 };
