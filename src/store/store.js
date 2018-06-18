@@ -9,7 +9,13 @@ export default new Vuex.Store({
     id: null,
     username: null,
     email: null,
-    admin: false
+    admin: false,
+    uploadRom: {
+      firstNextDisabled: true,
+      secondNextDisabled: true,
+      file: null,
+      selectedGame: null
+    }
   },
   mutations: {
     updateUsername(state, username) {
@@ -31,13 +37,47 @@ export default new Vuex.Store({
       state.username = null;
       state.email = null;
       state.admin = null;
-    } },
+    },
+    enableUploadRomFirstNext(state) {
+      state.uploadRom.firstNextDisabled = false;
+    },
+    disableUploadRomFirstNext(state) {
+      state.uploadRom.firstNextDisabled = true;
+    },
+    enableUploadRomSecondNext(state) {
+      state.uploadRom.secondNextDisabled = false;
+    },
+    disableUploadRomSecondNext(state) {
+      state.uploadRom.secondNextDisabled = true;
+    },
+    addedRomFile(state, file) {
+      state.uploadRom.file = file;
+    },
+    removedRomFile(state) {
+      state.uploadRom.file = null;
+    },
+    selectGameData(state, gameData) {
+      state.uploadRom.selectedGame = gameData;
+    }
+  },
   actions: {
     login(context, response) {
       context.commit('loadUserData', response);
     },
     logout(context) {
       context.commit('unloadUserData');
+    },
+    uploadedRomFile(context, file) {
+      context.commit('enableUploadRomFirstNext');
+      context.commit('addedRomFile', file);
+    },
+    removedRomFile(context) {
+      context.commit('disableUploadRomFirstNext');
+      context.commit('removedRomFile');
+    },
+    selectGameData(context, selected) {
+      context.commit('selectGameData', selected);
+      context.commit('enableUploadRomSecondNext');
     }
   }
 });
