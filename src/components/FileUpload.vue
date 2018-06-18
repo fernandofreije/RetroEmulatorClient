@@ -3,6 +3,7 @@
   <vue-dropzone
   v-on:vdropzone-file-added="emitAddedFile"
   v-on:vdropzone-removed-file="emitRemovedFile"
+  v-on:vdropzone-success="emitFileUploaded"
   ref="myVueDropzone"
   id="dropzone"
   :options="dropzoneOptions">
@@ -14,7 +15,7 @@
 <script>
 import vue2Dropzone from 'vue2-dropzone';
 import 'vue2-dropzone/dist/vue2Dropzone.min.css';
-import EventBus from '../event-bus.js';
+import EventBus from '../event-bus';
 
 export default {
   name: 'FileUpload',
@@ -51,19 +52,22 @@ export default {
   },
   methods: {
     send() {
-      return vue2Dropzone.processQueue();
-    },
-     send() {
-      return vue2Dropzone.disable();
+      return this.$refs.myVueDropzone.processQueue();
     },
     getFiles() {
-      return vue2Dropzone.getQueuedFiles();
+      return this.$refs.myVueDropzone.getQueuedFiles();
     },
-    emitAddedFile(file){
+    removeAllFiles() {
+      return this.$refs.myVueDropzone.removeAllFiles();
+    },
+    emitFileUploaded(file, response) {
+      EventBus.$emit('file-uploaded', file, response);
+    },
+    emitAddedFile(file) {
       EventBus.$emit('file-added', file);
     },
-    emitRemovedFile(file, error, xhr){
-      EventBus.$emit('file-removed', {file, error, xhr});
+    emitRemovedFile(file, error, xhr) {
+      EventBus.$emit('file-removed', { file, error, xhr });
     },
 
   }
