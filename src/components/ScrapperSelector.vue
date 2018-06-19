@@ -4,12 +4,12 @@
       :show="loading"
       :label="label">
     </loading>
-    <div>
-      <span>Volver a buscar</span>
-      <input v-model="gameToSearch"/>
-      <button v-on:click="fillGames(gameToSearch)">Search</button>
+    <div id="search-other-game" >
+      <span>Search other game</span>
+      <b-input v-model="gameToSearch"/>
+      <b-button v-on:click="fillGames(gameToSearch)">Search</b-button>
     </div>
-    <div v-if="selected">You have selected: {{selected.title}} {{selected.id}}</div>
+    <div id="show-selected" v-if="selected">You have selected: <strong>{{selected.title}} </strong></div>
     <vue-good-table
       @on-row-click="rowSelected"
       :columns="columns"
@@ -19,9 +19,18 @@
       }"
       :pagination-options="{
         enabled: true,
-        perPage: 10,
+        perPage: 5,
       }"
-      styleClass="vgt-table striped bordered"/>
+      styleClass="vgt-table bordered">
+        <template slot="table-row" slot-scope="props"> 
+          <span v-if="props.column.field == 'age'">
+            <span style="font-weight: bold; color: blue;">{{props.row.age}}</span> 
+          </span>
+          <span v-else>
+            {{props.formattedRow[props.column.field]}}
+          </span>
+        </template>
+    </vue-good-table>       
   </div>
 </template>
 
@@ -97,7 +106,8 @@ export default {
       } else this.games = ['No games uploaded'];
     },
     rowSelected(params) {
-      this.$store.dispatch('selectGameData', params.row);
+      console.log(params);
+      this.$store.commit('selectGameData', params.row);
       const gameId = this.$store.state.uploadRom.selectedGame.id;
       this.loading = true;
       this.$http.get(`http://localhost:8080/scrap/game?id=${gameId}`)
@@ -109,6 +119,9 @@ export default {
           this.loading = false;
         }
         );
+    },
+    markSelected(event){
+      event.target.add
     }
   }
 };
@@ -116,18 +129,17 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
+#show-selected {
+  text-align: left;
+  padding: 5px;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+
+strong {
+  color: white;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+
+#search-other-game {
+  padding: 1em;
 }
-a {
-  color: #42b983;
-}
+
 </style>

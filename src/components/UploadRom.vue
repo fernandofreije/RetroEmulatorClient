@@ -2,6 +2,8 @@
   <form-wizard
   ref="wizard"
   finishButtonText="Upload it!"
+  shape="square"
+  color="#ED1B31"
   title=""
   subtitle=""
   @on-change="handleTabChanged">
@@ -19,22 +21,7 @@
         <scrapper-selector ref="ScrapperSelector"></scrapper-selector>
     </tab-content>
     <tab-content title="Edit the data">
-      <form v-if="gameData">
-        <h1>Rom data</h1>
-        <img v-bind:src="gameData.boxartFront"/>
-        <label>Title</label>
-        <input
-        required
-        v-model="gameData.title"
-        type="text"
-        v-bind:placeholder="gameData.title"/>
-        <label>Overview</label>
-        <textarea
-        required
-        v-model="gameData.overview"
-        type="text"
-        v-bind:placeholder="gameData.overview"/>
-      </form>
+      <game-data :gameData='this.gameData'/>
     </tab-content>
 
      <template slot="footer" slot-scope="props">
@@ -72,12 +59,13 @@ import { FormWizard, TabContent, WizardButton } from 'vue-form-wizard';
 import 'vue-form-wizard/dist/vue-form-wizard.min.css';
 import FileUpload from './FileUpload';
 import ScrapperSelector from './ScrapperSelector';
+import GameData from './GameData';
 import EventBus from '../event-bus';
 
 
 export default {
   name: 'UploadRom',
-  components: { FileUpload, ScrapperSelector, loading, FormWizard, TabContent, WizardButton },
+  components: { FileUpload, ScrapperSelector, loading, FormWizard, TabContent, WizardButton, GameData },
   mounted() {
     EventBus.$on('file-added', (file) => {
       this.$store.dispatch('uploadedRomFile', file);
@@ -133,6 +121,9 @@ export default {
     },
     handleTabChanged(prev, next) {
       this.currentState = next;
+      this.$refs.wizard.tabs.slice(2).forEach((tab) => {tab.checked = false})
+      if (next < 1) this.$store.commit('deselectGameData');
+      if (next < 2) this.$store.commit('removeGameData');
     },
     restartForm() {
       this.$store.commit('resetUploadRom', this.$refs.wizard);
@@ -144,18 +135,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.wizard-icon-circle {
+  background-color: black;
 }
 </style>
