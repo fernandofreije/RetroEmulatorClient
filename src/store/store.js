@@ -62,6 +62,9 @@ export default new Vuex.Store({
     selectGameData(state, gameData) {
       state.uploadRom.selectedGame = gameData;
     },
+    deselectGameData(state) {
+      state.uploadRom.selectedGame = null;
+    },
     addGameData(state, gameData) {
       state.uploadRom.gameData = gameData;
     },
@@ -97,9 +100,6 @@ export default new Vuex.Store({
     removedRomFile(context) {
       context.commit('disableUploadRomFirstNext');
       context.commit('removedRomFile');
-    },
-    selectGameData(context, selected) {
-      context.commit('selectGameData', selected);
     },
     getGameData(context, selected) {
       context.commit('addGameData', selected);

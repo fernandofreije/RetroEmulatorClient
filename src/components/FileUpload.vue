@@ -4,6 +4,7 @@
   v-on:vdropzone-file-added="emitAddedFile"
   v-on:vdropzone-removed-file="emitRemovedFile"
   v-on:vdropzone-success="emitFileUploaded"
+  :include-styling="true"
   ref="myVueDropzone"
   id="dropzone"
   :options="dropzoneOptions">
@@ -76,7 +77,17 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.dz-progress {
-  display: None;
+
+#dropzone {
+  border-style: solid;
+  border-width: 2px;
+  color: white;
+  background-color: black;
+  color: white;
+  font-family: 'gamegirl';
+}
+
+#dropzone .dz-upload {
+  display: none;
 }
 </style>

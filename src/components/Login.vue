@@ -1,14 +1,15 @@
 <template>
  <div>
-   <nav><router-link to="/register">Sign Up</router-link></nav>
+   <img src='../assets/images/full-logo.png'/>
+   <nav class='top-right-corner'><b-link to="/register">Sign Up</b-link></nav>
    <form class="login" @submit.prevent="login">
      <h1>Sign In</h1>
      <label>Username</label>
-     <input required v-model="username" type="text" placeholder="Username"/>
+     <b-form-input required v-model="username" type="text" placeholder="Username"/>
      <label>Password</label>
-     <input required v-model="password" type="password" placeholder="Password"/>
+     <b-form-input required v-model="password" type="password" placeholder="Password"/>
      <hr/>
-     <button type="submit">Login</button>
+     <b-button type="submit">Login</b-button>
    </form>
    <p v-if="error" class="error">Bad login information </p>
  </div>
