@@ -1,20 +1,22 @@
 <template>
  <form v-if="gameData">
     <h1>Game data</h1>
-    <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
-	    <div class="flipper">
-		    <div class="front">
-		      <img v-bind:src="gameData.boxartFront"/>
-		    </div>
-		    <div class="back">
-			    <img v-bind:src="gameData.boxartBack"/>
-		    </div>
-	    </div>
+    <div id='images'>
+      <div id="banner">
+        <img  align='left' v-bind:src="gameData.clearLogo"/>
+      </div>
+      <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+        <div class="flipper">
+          <div class="front">
+            <img v-bind:src="gameData.boxartFront"/>
+          </div>
+          <div class="back">
+            <img v-bind:src="gameData.boxartBack"/>
+          </div>
+        </div>
+      </div>
     </div>
     <b-container>
-      <b-row>
-        <img v-bind:src="gameData.clearLogo"/>
-      </b-row>
       <b-row>
         <label for=''>Title</label>
         <b-input
@@ -91,12 +93,16 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-div {
-  text-align: left
-}
+
 
 hr {
   padding-top: 10px;
+}
+
+.container {
+   text-align: left;
+   padding-left: 38%;
+   padding-bottom: 5%;
 }
 
 span {
@@ -116,16 +122,36 @@ row {
   margin-left: 10%;
 }
 
-textarea { 
+textarea {
   display:block;
   width: 80%;
-  height: 150px;
+  height: 250px;
   resize: none;
 }
 
+#images {
+  float:left;
+  margin-top: -85px;
+  margin-left: 10%;
+}
+
+#banner {
+  height: 160px;
+  width: 320px;
+}
+
+#banner img{
+  margin-left: auto;
+	margin-right: auto;
+	display: block;
+  float: none;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+
 .flip-container {
 	perspective: 1000px;
-  margin-left: 10%;
   float:left;
 }
 /* flip the pane when hovered */
@@ -136,7 +162,7 @@ textarea {
 .flip-container, .front, .back {
 	width: 320px;
 	height: 480px;
-  
+
 }
 
 /* flip speed goes here */
