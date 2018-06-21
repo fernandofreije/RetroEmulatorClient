@@ -11,7 +11,9 @@ export default new Vuex.Store({
       username: null,
       email: null,
       admin: false,
+      layout: null
     },
+    userRoms: [],
     uploadRom: {
       firstNextDisabled: true,
       secondNextDisabled: true,
@@ -80,8 +82,19 @@ export default new Vuex.Store({
         gameData: null
       };
       if (wizard) wizard.reset();
+    },
+    setUserRoms(state, roms) {
+      state.userRoms = roms;
+    },
+    deleteUserRom(state, romId) {
+      state.userRoms = state.userRoms.filter(x => x.id !== romId);
+    },
+    setLayout(state, layout) {
+      state.user.layout = layout;
+    },
+    deleteFromLayout(state, romId) {
+      state.user.layout = state.user.layout.filter(x => x.id !== romId);
     }
-
   },
   actions: {
     login(context, response) {
@@ -104,6 +117,10 @@ export default new Vuex.Store({
     getGameData(context, selected) {
       context.commit('addGameData', selected);
       context.commit('enableUploadRomSecondNext');
+    },
+    deleteRom(context, romId) {
+      context.commit('deleteUserRom', romId);
+      context.commit('deleteFromLayout', romId);
     }
   }
 });

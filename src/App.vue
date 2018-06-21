@@ -17,8 +17,8 @@ export default {
 <style>
 @font-face {
     font-family: 'gamegirl';
-    src: url('./assets/fonts/gamegirl-webfont.woff2') format('woff2'),
-         url('./assets/fonts/gamegirl-webfont.woff') format('woff');
+    src: url('/static/fonts/gamegirl-webfont.woff2') format('woff2'),
+         url('/static/fonts/gamegirl-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
@@ -48,7 +48,6 @@ body {
 }
 
 #content {
-  margin-top: 60px;
   flex: 1 0 auto;
 }
 

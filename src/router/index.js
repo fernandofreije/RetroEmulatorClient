@@ -2,6 +2,8 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Login from '@/components/Login';
 import Main from '@/components/Main';
+import UploadRom from '@/components/UploadRom';
+import RomList from '@/components/RomList';
 import Register from '@/components/Register';
 import store from '@/store/store';
 
@@ -13,7 +15,21 @@ const router = new Router({
       path: '/',
       name: 'Main',
       component: Main,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: '',
+          name: 'RomList',
+          meta: { requiresAuth: true },
+          component: RomList
+        },
+        {
+          path: '/uploadRom',
+          name: 'UploadRom',
+          meta: { requiresAuth: true },
+          component: UploadRom
+        },
+      ]
     },
     {
       path: '/login',

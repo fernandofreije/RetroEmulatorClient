@@ -6,8 +6,8 @@
     </loading>
     <div id="search-other-game" >
       <span>Search other game</span>
-      <b-input v-model="gameToSearch"/>
-      <b-button v-on:click="fillGames(gameToSearch)">Search</b-button>
+      <input v-model="gameToSearch"/>
+      <button v-on:click="fillGames(gameToSearch)">Search</button>
     </div>
     <div id="show-selected" v-if="selected">You have selected: <strong>{{selected.title}} </strong></div>
     <vue-good-table

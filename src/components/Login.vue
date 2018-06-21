@@ -1,15 +1,15 @@
 <template>
  <div>
-   <img src='../assets/images/full-logo.png'/>
-   <nav class='top-right-corner'><b-link to="/register">Sign Up</b-link></nav>
+   <img class='full-logo' src='/static/images/full-logo.png'/>
+   <nav id='register'><router-link to="/register">Sign Up</router-link></nav>
    <form class="login" @submit.prevent="login">
      <h1>Sign In</h1>
      <label>Username</label>
-     <b-form-input required v-model="username" type="text" placeholder="Username"/>
+     <input required v-model="username" type="text" placeholder="Username"/>
      <label>Password</label>
-     <b-form-input required v-model="password" type="password" placeholder="Password"/>
+     <input required v-model="password" type="password" placeholder="Password"/>
      <hr/>
-     <b-button type="submit">Login</b-button>
+     <button type="submit">Login</button>
    </form>
    <p v-if="error" class="error">Bad login information </p>
  </div>
@@ -41,4 +41,27 @@ export default {
 .error {
     color: red;
   }
+
+.full-logo {
+  max-width: 90%;
+  margin-top: 60px;
+}
+
+.logout {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  padding: 3em;
+}
+
+@media (max-width: 600px) {
+  .full-logo {
+    margin-top: 10%;
+  }
+  
+  input {
+    margin: 5%;
+  }
+
+}
 </style>

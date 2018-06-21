@@ -5,7 +5,8 @@ import axios from 'axios';
 import VueSweetalert2 from 'vue-sweetalert2';
 import VueGoodTable from 'vue-good-table';
 import 'vue-good-table/dist/vue-good-table.css';
-import BootstrapVue from 'bootstrap-vue';
+import VModal from 'vue-js-modal';
+import Meta from 'vue-meta';
 import App from './App';
 import router from './router';
 import store from './store/store';
@@ -22,7 +23,8 @@ axios.interceptors.response.use(
 Vue.prototype.$http = axios;
 Vue.use(VueSweetalert2);
 Vue.use(VueGoodTable);
-Vue.use(BootstrapVue);
+Vue.use(VModal);
+Vue.use(Meta);
 Vue.use(require('vue-moment'));
 
 /* eslint-disable no-new */
@@ -32,4 +34,11 @@ new Vue({
   store,
   components: { App },
   template: '<App/>',
+  metaInfo: {
+    title: 'RetroEmulator',
+    titleTemplate: '%s',
+    link: [
+      { rel: 'icon', href: '/static/images/logo.png' }
+    ]
+  }
 });

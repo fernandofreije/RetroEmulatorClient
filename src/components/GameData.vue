@@ -8,48 +8,50 @@
       <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
         <div class="flipper">
           <div class="front">
-            <img v-bind:src="gameData.boxartFront"/>
+            <img v-if="gameData.boxartFront" v-bind:src="gameData.boxartFront"/>
+            <img v-else src="/static/images/no-boxart.png"/>
           </div>
           <div class="back">
-            <img v-bind:src="gameData.boxartBack"/>
+            <img v-if="gameData.boxartBack" v-bind:src="gameData.boxartBack"/>
+            <img v-else src="/static/images/no-boxart.png"/>
           </div>
         </div>
       </div>
     </div>
-    <b-container>
-      <b-row>
+    <div class="container">
+      <div>
         <label for=''>Title</label>
-        <b-input
+        <input
         required
         size="50"
         v-model="gameData.title"
         type="text"
         v-bind:placeholder="gameData.title"/>
-      </b-row>
-      <b-row>
+      </div>
+      <div>
         <label for=''>Platform</label>
         <span>{{gameData.platform}}</span>
-      </b-row>
-      <b-row>
+      </div>
+      <div>
         <label for=''>Release Date</label>
         <span>{{gameData.releaseDate | moment('MMM Do YYYY')}}</span>
-      </b-row>
-      <b-row>
+      </div>
+      <div>
         <label for=''>Publisher</label>
         <span>{{gameData.publisher}}</span>
-      </b-row>
-      <b-row>
+      </div>
+      <div>
         <label for=''>Developer</label>
         <span>{{gameData.developer}}</span>
-      </b-row>
-      <b-row>
+      </div>
+      <div>
         <label for=''>ESRB</label>
         <span>{{gameData.ESRB}}</span>
-      </b-row>
-      <b-row>
+      </div>
+      <div>
         <label for=''>Genres</label>
         <div v-for="(genre, index) in gameData.genres" :key="index">
-          <b-input
+          <input
           required
           v-model="gameData.genres[index]"
           type="text"
@@ -57,16 +59,16 @@
         </div>
         <button @click="addGenre">New genre</button>
         <button @click="removeGenre">Delete last genre</button>
-      </b-row>
-      <b-row>
+      </div>
+      <div>
         <label>Overview</label>
-        <b-form-textarea
+        <textarea
         required
         v-model="gameData.overview"
         type="text"
         v-bind:placeholder="gameData.overview"/>
-      </b-row>
-    </b-container>
+      </div>
+    </div>
   </form>
 </template>
 
@@ -160,9 +162,18 @@ textarea {
 }
 
 .flip-container, .front, .back {
-	width: 320px;
-	height: 480px;
+	width: 300px;
+	height: 374px;
 
+}
+
+.flip-container img {
+    margin-left: auto;
+	margin-right: auto;
+	display: block;
+  float: none;
+  max-height: 100%;
+  max-width: 100%;
 }
 
 /* flip speed goes here */
@@ -192,4 +203,24 @@ textarea {
 .back {
 	transform: rotateY(180deg);
 }
+
+@media (max-width: 600px) {
+  #images {
+    margin-left: 0;
+  }
+
+  .container {
+    padding-left: 0;
+  }
+
+  #banner {
+    margin-top: 30%;
+  }
+  
+  input {
+    margin: 5%;
+  }
+
+}
+
 </style>

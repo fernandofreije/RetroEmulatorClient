@@ -27,7 +27,7 @@
      <template slot="footer" slot-scope="props">
        <div class=wizard-footer-left>
            <wizard-button
-           v-if="props.activeTabIndex > 0 && !props.isLastStep"
+           v-if="props.activeTabIndex > 0"
            @click.native="props.prevTab()"
            :style="props.fillButtonStyle">Previous</wizard-button>
         </div>
@@ -76,10 +76,15 @@ export default {
     EventBus.$on('file-uploaded', (file, responseUpload) => {
       const rom = this.$store.state.uploadRom.gameData;
       rom.file = responseUpload.fileUrl;
+      console.log('file uploaded')
       this.$http.post('http://localhost:8080/roms/', rom)
         .then(() => {
+          console.log('un post');
           this.loading = false;
-          this.$swal('Congratulations', 'romUploaded', 'success').then(() => this.restartForm());
+          this.$swal('Congratulations', 'romUploaded', 'success').then(() => {
+            this.restartForm()
+            this.$router.push('/');  
+          });
         })
         .catch(() => {
           this.loading = false;
@@ -121,7 +126,8 @@ export default {
     },
     handleTabChanged(prev, next) {
       this.currentState = next;
-      this.$refs.wizard.tabs.slice(2).forEach((tab) => {tab.checked = false})
+      this.$refs.wizard.tabs.slice(1).forEach((tab) => {tab.checked = false})
+      this.$refs.wizard.maxStep = next;
       if (next < 1) this.$store.commit('deselectGameData');
       if (next < 2) this.$store.commit('removeGameData');
     },

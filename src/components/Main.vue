@@ -1,23 +1,18 @@
 <template>
-  <upload-rom/>
+<div>
+  <my-navbar/>
+  <router-view/>
+</div>
 </template>
 
 <script>
-import UploadRom from './UploadRom';
+import RomList from './RomList';
+import MyNavbar from './Navbar';
 
 
 export default {
   name: 'Main',
-  components: { UploadRom },
-  methods: {
-    logout() {
-      this.$http.get('http://localhost:8080/logout')
-        .then(() => {
-          this.$store.dispatch('logout');
-        })
-        .catch(error => console.log(error));
-    }
-  }
+  components: { RomList, MyNavbar }
 };
 </script>
 
