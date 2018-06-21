@@ -1,7 +1,7 @@
 <template>
 <nav>
   <ul>
-    <li>
+    <li class='logo'>
       <router-link to="/"><img src="/static/images/logo.png"/></router-link>
     </li>
     <li>
@@ -54,5 +54,9 @@ img {
   height: 30px;
 }
 
+.logo{
+  background-color:black;
+  width:100%;
+}
 
 </style>

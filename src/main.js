@@ -5,6 +5,7 @@ import axios from 'axios';
 import VueSweetalert2 from 'vue-sweetalert2';
 import VueGoodTable from 'vue-good-table';
 import 'vue-good-table/dist/vue-good-table.css';
+import 'vue2-animate/dist/vue2-animate.min.css';
 import VModal from 'vue-js-modal';
 import Meta from 'vue-meta';
 import App from './App';

@@ -58,7 +58,7 @@ export default {
   .full-logo {
     margin-top: 10%;
   }
-  
+
   input {
     margin: 5%;
   }
