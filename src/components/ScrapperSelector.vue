@@ -44,26 +44,17 @@ export default {
   components: {
     loading
   },
-  mounted() {
-    EventBus.$on('file-added', (file) => {
-      this.fillGames(file.name);
-    }
-    );
-    EventBus.$on('file-removed', () => {
-      this.games = [];
-    }
-    );
+  created() {
+    EventBus.$on('file-added', this.onFileAdded);
+    EventBus.$on('file-removed', this.onFileRemoved);
   },
-  computed: {
-    selected: {
-      get() {
-        return this.$store.state.uploadRom.selectedGame;
-      }
-    }
+  destroyed(){
+    EventBus.$off('file-added', this.onFileAdded);
+    EventBus.$off('file-removed', this.onFileRemoved);
   },
-  data() {
+  data(){
     return {
-      label: 'Getting rom data...',
+      label: 'Getting game candidates data...',
       gameToSearch: '',
       columns: [
         {
@@ -87,7 +78,14 @@ export default {
       ],
       games: [],
       loading: false
-    };
+    }
+  },
+  computed: {
+    selected: {
+      get() {
+        return this.$store.state.uploadRom.selectedGame;
+      }
+    }
   },
   methods: {
     fillGames(name) {
@@ -122,6 +120,12 @@ export default {
     },
     markSelected(event){
       event.target.add
+    },
+    onFileAdded(file){
+      this.fillGames(file.name);
+    },
+    onFileRemoved(){
+      this.games = [];
     }
   }
 };

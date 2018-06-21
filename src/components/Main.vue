@@ -1,8 +1,8 @@
 <template>
 <div>
   <my-navbar/>
-  <transition id='main-transition' name="slide" enter-active-class="slideInLeft" leave-active-class="slideOutRight">
-    <router-view/>
+  <transition name="slide" enter-active-class="slideInLeft" leave-active-class="slideOutRight">
+    <router-view id='main'/>
   </transition>
 </div>
 </template>
@@ -20,7 +20,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#main-transition {
-  animation-duration: 5s;
+#main {
+  animation-duration: 0.5s;
 }
 </style>

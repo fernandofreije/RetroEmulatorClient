@@ -23,7 +23,6 @@
     <tab-content title="Edit the data">
       <game-data :gameData='this.gameData'/>
     </tab-content>
-
      <template slot="footer" slot-scope="props">
        <div class=wizard-footer-left>
            <wizard-button
@@ -66,34 +65,22 @@ import EventBus from '../event-bus';
 export default {
   name: 'UploadRom',
   components: { FileUpload, ScrapperSelector, loading, FormWizard, TabContent, WizardButton, GameData },
-  mounted() {
-    EventBus.$on('file-added', (file) => {
-      this.$store.dispatch('uploadedRomFile', file);
-    });
-    EventBus.$on('file-removed', () => {
-      this.$store.dispatch('removedRomFile');
-    });
-    EventBus.$on('file-uploaded', (file, responseUpload) => {
-      const rom = this.$store.state.uploadRom.gameData;
-      rom.file = responseUpload.fileUrl;
-      console.log('file uploaded')
-      this.$http.post('http://localhost:8080/roms/', rom)
-        .then(() => {
-          console.log('un post');
-          this.loading = false;
-          this.$swal('Congratulations', 'romUploaded', 'success').then(() => {
-            this.restartForm()
-            this.$router.push('/');  
-          });
-        })
-        .catch(() => {
-          this.loading = false;
-          this.$store.commit('resetUploadRom', this.$refs.wizard);
-          this.$swal('Ups!', 'A problem has ocurred', 'error').then(() => this.restartForm());
-        });
-      this.$store.dispatch('removedRomFile');
-    }
-    );
+  created() {
+    EventBus.$on('file-added', this.onFileAdded);
+    EventBus.$on('file-removed', this.onFileRemoved);
+    EventBus.$on('file-uploaded', this.onFileUploaded);
+  },
+  destroyed(){
+    EventBus.$off('file-added', this.onFileAdded);
+    EventBus.$off('file-removed', this.onFileRemoved);
+    EventBus.$off('file-uploaded', this.onFileUploaded);
+  },
+  data() {
+    return {
+      currentState: 0,
+      label: 'Uploading your rom...',
+      loading: false
+    };
   },
   computed: {
     nextDisabled1: {
@@ -112,13 +99,6 @@ export default {
       }
     }
   },
-  data() {
-    return {
-      currentState: 0,
-      label: 'Uploading your rom...',
-      loading: false
-    };
-  },
   methods: {
     onComplete() {
       this.loading = true;
@@ -134,6 +114,30 @@ export default {
     restartForm() {
       this.$store.commit('resetUploadRom', this.$refs.wizard);
       this.$refs.FileUpload.removeAllFiles();
+    },
+    onFileAdded(file) {
+      this.$store.dispatch('uploadedRomFile', file);
+    },
+    onFileRemoved() {
+      this.$store.dispatch('removedRomFile');
+    },
+    onFileUploaded(file, responseUpload) {
+      const rom = this.$store.state.uploadRom.gameData;
+      rom.file = responseUpload.fileUrl;
+      this.$http.post('http://localhost:8080/roms/', rom)
+        .then(() => {
+          this.loading = false;
+          this.$swal('Congratulations', 'romUploaded', 'success').then(() => {
+            this.restartForm();
+            this.$router.push('/');  
+          });
+        })
+        .catch(() => {
+          this.loading = false;
+          this.$store.commit('resetUploadRom', this.$refs.wizard);
+          this.$swal('Ups!', 'A problem has ocurred', 'error').then(() => this.restartForm());
+        });
+      this.$store.dispatch('removedRomFile');
     }
   }
 };

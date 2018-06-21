@@ -20,7 +20,8 @@ export default new Vuex.Store({
       file: null,
       selectedGame: null,
       gameData: null
-    }
+    },
+    gameEmulated: null
   },
   mutations: {
     updateUsername(state, username) {
@@ -94,6 +95,12 @@ export default new Vuex.Store({
     },
     deleteFromLayout(state, romId) {
       state.user.layout = state.user.layout.filter(x => x.id !== romId);
+    },
+    setGameEmulated(state, game) {
+      state.gameEmulated = game;
+    },
+    removeGameEmulated(state) {
+      state.gameEmulated = null;
     }
   },
   actions: {

@@ -62,12 +62,15 @@ export default {
       return this.$refs.myVueDropzone.removeAllFiles();
     },
     emitFileUploaded(file, response) {
+      console.log('emited upload');
       EventBus.$emit('file-uploaded', file, response);
     },
     emitAddedFile(file) {
+      console.log('emited added');
       EventBus.$emit('file-added', file);
     },
     emitRemovedFile(file, error, xhr) {
+      console.log('emited removed');
       EventBus.$emit('file-removed', { file, error, xhr });
     },
 

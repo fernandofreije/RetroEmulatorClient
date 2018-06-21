@@ -1,5 +1,5 @@
 <template>
- <form v-if="gameData">
+ <div v-if="gameData">
     <h1>Game data</h1>
     <div id='images'>
       <div id="banner">
@@ -69,7 +69,7 @@
         v-bind:placeholder="gameData.overview"/>
       </div>
     </div>
-  </form>
+  </div>
 </template>
 
 <script>
@@ -101,6 +101,10 @@ hr {
   padding-top: 10px;
 }
 
+h1 {
+  text-align: left;
+  padding-left: 38%;
+}
 .container {
    text-align: left;
    padding-left: 38%;
@@ -145,8 +149,6 @@ textarea {
 #banner img{
   margin-left: auto;
 	margin-right: auto;
-	display: block;
-  float: none;
   max-height: 100%;
   max-width: 100%;
 }
@@ -154,7 +156,6 @@ textarea {
 
 .flip-container {
 	perspective: 1000px;
-  float:left;
 }
 /* flip the pane when hovered */
 .flip-container:hover .flipper, .flip-container.hover .flipper {
@@ -168,10 +169,8 @@ textarea {
 }
 
 .flip-container img {
-    margin-left: auto;
+  margin-left: auto;
 	margin-right: auto;
-	display: block;
-  float: none;
   max-height: 100%;
   max-width: 100%;
 }
@@ -204,9 +203,10 @@ textarea {
 	transform: rotateY(180deg);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 830px) {
   #images {
-    margin-left: 0;
+    margin-top: 10px;
+    float: none;
   }
 
   .container {

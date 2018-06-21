@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view id="content"/>
+    <transition name="zoom">
+      <router-view id="content"/>
+    </transition>
     <footer><footer-component/></footer>
   </div>
 </template>
@@ -94,8 +96,7 @@ button:hover {
 
 .top-right-corner {
   position: absolute;
-  top: 0px;
-  right: 0px;
-  padding: 3em;
+  top: 0;
+  right: 0;
 }
 </style>

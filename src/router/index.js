@@ -5,6 +5,7 @@ import Main from '@/components/Main';
 import UploadRom from '@/components/UploadRom';
 import RomList from '@/components/RomList';
 import Register from '@/components/Register';
+import NesEmulator from '@/components/NesEmulator';
 import store from '@/store/store';
 
 Vue.use(Router);
@@ -28,6 +29,12 @@ const router = new Router({
           name: 'UploadRom',
           meta: { requiresAuth: true },
           component: UploadRom
+        },
+        {
+          path: '/emulate/',
+          name: 'Emulator',
+          meta: { requiresAuth: true },
+          component: NesEmulator
         },
       ]
     },

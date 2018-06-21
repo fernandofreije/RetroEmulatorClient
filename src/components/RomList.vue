@@ -22,8 +22,9 @@
             <div class='image-container'>
               <img :src="item.boxartFront">
               <div class="actions">
-                <button @click="downloadRom(item.id)">Descargar</button>
-                <button @click="deleteRom(item.id)">Eliminar</button>
+                <button @click="playRom(item)">Play</button>
+                <button @click="downloadRom(item.id)">Download</button>
+                <button @click="deleteRom(item.id)">Delete</button>
               </div>
             </div>
           </grid-item>
@@ -108,6 +109,10 @@ export default {
           link.click()
         })
         .catch(error => console.log(error));
+    },
+    playRom(game) {
+      this.$store.commit('setGameEmulated', game)
+      this.$router.push('/emulate');
     }
   }
 };
@@ -117,6 +122,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.vue-grid-layout {
+  margin: 5%;
+}
+
 .vue-grid-item {
   background-color:grey;
 }
@@ -151,7 +161,6 @@ export default {
   top: 90%;
   left: 80%;
   transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  
+  -ms-transform: translate(-50%, -50%);  
 }
 </style>

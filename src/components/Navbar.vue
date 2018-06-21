@@ -8,11 +8,12 @@
       <router-link to="">{{username}}</router-link>
     </li>
     <li>
+      <router-link to="/uploadRom" v-on:click="logout">Upload</router-link>
+    </li>
+    <li class='logout'>
       <router-link to="/login" v-on:click="logout">Logout</router-link>
     </li>
-    <li>
-      <router-link to="/uploadRom" v-on:click="logout">Upload a Rom</router-link>
-    </li>
+   
   </ul>
 </nav>
 </template>
@@ -48,15 +49,56 @@ nav {
 
 ul {
   list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
-img {
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  text-align: center;
+  padding: 16px;
+  text-decoration: none;
+}
+
+li img {
+  display: block;
   height: 30px;
 }
 
-.logo{
+.logo {
   background-color:black;
-  width:100%;
+}
+
+.logout {
+  float: right;
+}
+
+@media (max-width: 600px) {
+
+  li {
+    float: none;
+  }
+
+  li a {
+    display: block;
+    text-align: center;
+    padding: 16px;
+    text-decoration: none;
+  }
+
+  li img {
+    display: block;
+    height: 30px;
+  }
+
+  .logout {
+    float: none;
+  }
 }
 
 </style>
