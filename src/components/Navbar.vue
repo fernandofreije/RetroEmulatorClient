@@ -61,7 +61,7 @@ li {
 li a {
   display: block;
   text-align: center;
-  padding: 16px;
+  padding: 8px;
   text-decoration: none;
 }
 
@@ -71,7 +71,7 @@ li img {
 }
 
 .logo {
-  background-color:black;
+  background-color:darkgray;
 }
 
 .logout {

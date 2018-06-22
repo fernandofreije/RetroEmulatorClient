@@ -4,13 +4,14 @@
       :show="loading"
       :label="label">
   </loading>
+  <h1>My games</h1>
   <grid-layout v-if="userRoms.length > 0"
     :layout="layout"
     :is-draggable="true"
     :is-resizable="false"
     :vertical-compact="true"
     :margin="[10, 10]"
-    :use-css-transforms="true"
+    :use-css-transforms="false"
     >
             <grid-item v-for="item in layout"
                 :x="item.x"
@@ -124,11 +125,14 @@ export default {
 <style scoped>
 
 .vue-grid-layout {
-  margin: 5%;
+  margin: 20px;
 }
 
 .vue-grid-item {
   background-color:grey;
+  width: 250px;
+  height: 310px;
+  
 }
 
 .image-container {
