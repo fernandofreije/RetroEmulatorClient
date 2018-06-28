@@ -1,11 +1,7 @@
 <template>
   <div>
-   <nav id='login'
-   class="top-right-corner">
-    <router-link to="/login">Back to Sign In</router-link>
-   </nav>
-   <form class="register" @submit.prevent="validateBeforeSubmit()">
-     <h1>Sign In</h1>
+   <form class="userData" @submit.prevent="validateBeforeSubmit()">
+     <h1>User Data</h1>
      <div class='input-container'>
       <label>Username</label>
       <input v-validate="'required'"
@@ -20,7 +16,7 @@
      </div>
      <div class='input-container'>
       <label>Password</label>
-      <input v-validate="'required'"
+      <input
       v-model="password"
       name="password"
       type="password"
@@ -35,7 +31,7 @@
       data-vv-as="password">
      </div>
      <hr/>
-     <button type="submit">Register</button>
+     <button type="submit">Save</button>
    </form>
    <div class="error" v-show="errors.any()">
      <div v-if="errors.has('username')">
@@ -51,13 +47,35 @@
       {{ errors.first('password_confirmation') }}
     </div>
   </div>
-   <p v-if="error" class="error">Sign in was not posible</p>
+   <p v-if="changed && !error" class="error">Click save to save the changes</p>
+   <p v-if="error" class="error">Update was not posible</p>
  </div>
 </template>
 
 <script>
 export default {
-  name: 'Register',
+  name: 'UserData',
+  mounted() {
+    this.email = this.o_email;
+    this.user = this.o_user;
+  },
+  computed: {
+    o_email: {
+      get() {
+        return this.$store.state.user.email;
+      }
+    },
+    o_user: {
+      get() {
+        return this.$store.state.user.user;
+      }
+    },
+    changed: {
+      get() {
+        return this.email !== this.o_email || this.user !== this.o_user || this.password;
+      }
+    }
+  },
   data() {
     return {
       email: '',
@@ -72,20 +90,28 @@ export default {
         .validateAll()
         .then(() => {
           if (this.errors.items.length === 0) {
-            this.registerUser();
+            this.updateUser();
           }
         })
         .catch((error) => {
           this.error = error;
         });
     },
-    registerUser() {
+    updateUser() {
       const { user, email, password } = this;
-      this.$http.post('register', { user, email, password })
-        .then(response => this.$store.dispatch('login', response.data.user))
-        .catch((error) => {
-          this.error = error;
-        });
+      if (password !== '') {
+        this.$http.put('changeData', { user, email, password })
+          .then(() => this.$router.push('/'))
+          .catch((error) => {
+            this.error = error;
+          });
+      } else {
+        this.$http.put('changeData', { user, email })
+          .then(() => this.$router.push('/'))
+          .catch((error) => {
+            this.error = error;
+          });
+      }
     }
   }
 };
@@ -103,7 +129,7 @@ a {
   margin-right: 10px;
 }
 
-.register {
+.userData {
   margin: auto;
   width: 70%;
 }

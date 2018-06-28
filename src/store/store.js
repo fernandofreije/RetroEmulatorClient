@@ -7,7 +7,7 @@ Vue.use(Vuex);
 
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
-  modules: ['user']
+  modules: ['user', 'gameData']
 });
 
 export default new Vuex.Store({
@@ -25,29 +25,28 @@ export default new Vuex.Store({
       firstNextDisabled: true,
       secondNextDisabled: true,
       file: null,
-      selectedGame: null,
-      gameData: null
+      selectedGame: null
     },
-    gameEmulated: null
+    gameData: null
   },
   mutations: {
-    updateUsername(state, username) {
-      state.user.username = username;
+    updateUsername(state, user) {
+      state.user.user = user;
     },
-    updateEmail(state, username) {
-      state.user.username = username;
+    updateEmail(state, email) {
+      state.user.email = email;
     },
     loadUserData(state, payload) {
       state.user.isAuth = true;
       state.user.id = payload.id;
-      state.user.username = payload.username;
+      state.user.user = payload.user;
       state.user.email = payload.email;
       state.user.admin = payload.admin;
     },
     unloadUserData(state) {
       state.user.isAuth = false;
       state.user.id = null;
-      state.user.username = null;
+      state.user.user = null;
       state.user.email = null;
       state.user.admin = false;
     },
@@ -76,10 +75,10 @@ export default new Vuex.Store({
       state.uploadRom.selectedGame = null;
     },
     addGameData(state, gameData) {
-      state.uploadRom.gameData = gameData;
+      state.gameData = gameData;
     },
     removeGameData(state) {
-      state.uploadRom.gameData = null;
+      state.gameData = null;
     },
     resetUploadRom(state, wizard = null) {
       state.uploadRom = {
@@ -87,8 +86,8 @@ export default new Vuex.Store({
         secondNextDisabled: true,
         file: null,
         selectedGame: null,
-        gameData: null
       };
+      state.gameData = null;
       if (wizard) wizard.reset();
     },
     setUserRoms(state, roms) {
@@ -102,12 +101,6 @@ export default new Vuex.Store({
     },
     deleteFromLayout(state, romId) {
       state.user.layout = state.user.layout.filter(x => x.id !== romId);
-    },
-    setGameEmulated(state, game) {
-      state.gameEmulated = game;
-    },
-    removeGameEmulated(state) {
-      state.gameEmulated = null;
     }
   },
   actions: {

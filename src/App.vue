@@ -12,7 +12,7 @@ import FooterComponent from './components/Footer';
 
 export default {
   name: 'App',
-  components: {FooterComponent}
+  components: { FooterComponent }
 };
 </script>
 
@@ -34,7 +34,6 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100%;
-  
 }
 
 html {

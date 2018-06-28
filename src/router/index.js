@@ -6,6 +6,8 @@ import UploadRom from '@/components/UploadRom';
 import RomList from '@/components/RomList';
 import Register from '@/components/Register';
 import NesEmulator from '@/components/NesEmulator';
+import UserData from '@/components/UserData';
+import GameData from '@/components/GameData';
 import store from '@/store/store';
 
 Vue.use(Router);
@@ -14,7 +16,6 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'Main',
       component: Main,
       meta: { requiresAuth: true },
       children: [
@@ -35,6 +36,18 @@ const router = new Router({
           name: 'Emulator',
           meta: { requiresAuth: true },
           component: NesEmulator
+        },
+        {
+          path: '/user/',
+          name: 'User',
+          meta: { requiresAuth: true },
+          component: UserData
+        },
+        {
+          path: '/game/',
+          name: 'GameData',
+          meta: { requiresAuth: true },
+          component: GameData
         },
       ]
     },

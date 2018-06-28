@@ -38,24 +38,22 @@
 
 <script>
 
-import Nesjs from 'nes-js';
+import 'nes-js';
+
 let nes;
 export default {
   name: 'NesEmulator',
-  data() {
-    return {
-    }
-  },
   computed: {
     game: {
-      get(){
-        return this.$store.state.gameEmulated;
+      get() {
+        return this.$store.state.gameData;
       }
     }
   },
-  mounted(){
-    this.$http.get(`roms/${this.game.id}/download`, {responseType: 'arraybuffer'})
-      .then( (response) => {
+  mounted() {
+    /* global NesJs */
+    this.$http.get(`roms/${this.game.id}/download`, { responseType: 'arraybuffer' })
+      .then((response) => {
         nes = new NesJs.Nes();
         nes.setRom(new NesJs.Rom(response.data));
         nes.setDisplay(new NesJs.Display(this.$refs.gameCanvas));
@@ -67,7 +65,7 @@ export default {
         nes.run();
       });
   },
-  destroyed(){
+  destroyed() {
     nes.stop();
     window.onkeydown = null;
     window.onkeyup = null;
@@ -91,8 +89,8 @@ h1 {
 
 img{
   margin-left: auto;
-	margin-right: auto;
-	display: block;
+  margin-right: auto;
+  display: block;
   float: none;
   max-height: 100%;
   max-width: 100%;

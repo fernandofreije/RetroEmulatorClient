@@ -23,7 +23,8 @@
             <div class='image-container'>
               <img :src="item.boxartFront">
               <div class="actions">
-                <button @click="playRom(item)">Play</button>
+                <button @click="viewRom(item)">View</button>
+                <button v-if="emulable.includes(item.platform)" @click="playRom(item)">Play</button>
                 <button @click="downloadRom(item.id)">Download</button>
                 <button @click="deleteRom(item.id)">Delete</button>
               </div>
@@ -37,23 +38,23 @@
 </template>
 
 <script>
-import {GridLayout, GridItem} from 'vue-grid-layout';
+import { GridLayout, GridItem } from 'vue-grid-layout';
 import loading from 'vue-full-loading';
 
 export default {
   name: 'RomList',
-  components: { GridLayout, GridItem, loading},
-  mounted(){
-    this.loading=true;
+  components: { GridLayout, GridItem, loading },
+  mounted() {
+    this.loading = true;
     this.$http.get('roms/')
       .then((response) => {
         this.$store.commit('setUserRoms', response.data);
         this.$store.commit('setLayout', this.generateLayout());
-        this.loading=false;
+        this.loading = false;
       })
-      .catch((error) => {
-        this.loading=false;
-      })
+      .catch(() => {
+        this.loading = false;
+      });
   },
   computed: {
     userRoms: {
@@ -63,57 +64,60 @@ export default {
     },
     layout: {
       get() {
-        if (!this.$store.state.user.layout) return []
+        if (!this.$store.state.user.layout) return [];
         return this.$store.state.user.layout;
-       }
+      }
     }
   },
-  data(){
+  data() {
     return {
+      emulable: ['Nintendo Entertainment System (NES)'],
       loading: false,
       label: 'Loading your roms',
-    }
+    };
   },
   methods: {
     generateLayout() {
-      let x=0;
-      let y=0;
-      let layout = []
+      let x = 0;
+      let y = 0;
+      const layout = [];
       this.$store.state.userRoms.forEach((rom) => {
-        rom['x']=x;
-        rom['y']=y;
-        rom['h']=2;
-        rom['w']=2;
+        rom.x = x;
+        rom.y = y;
+        rom.h = 2;
+        rom.w = 2;
         layout.push(rom);
-        x+=2;
-        if (x>10){
-          x=0;
-          y+=2;
-          }
-      })
+        x += 2;
+        if (x > 10) {
+          x = 0;
+          y += 2;
+        }
+      });
       return layout;
     },
     deleteRom(id) {
-      console.log(id);
       this.$http.delete(`roms/${id}`)
-      .then ((response) => {
-        this.$store.dispatch('deleteRom', id);
-      })
+        .then(() => {
+          this.$store.dispatch('deleteRom', id);
+        });
     },
     downloadRom(id) {
       this.$http.get(`roms/${id}/download`)
         .then((response) => {
-          let blob = new Blob([response.data], { type: 'application/octet-stream' } )
-          let link = document.createElement('a')
-          link.href = window.URL.createObjectURL(blob)
-          link.download = `${this.$store.state.userRoms.find(x => x.id === id).title}.nes`
-          link.click()
-        })
-        .catch(error => console.log(error));
+          const blob = new Blob([response.data], { type: 'application/octet-stream' });
+          const link = document.createElement('a');
+          link.href = window.URL.createObjectURL(blob);
+          link.download = `${this.$store.state.userRoms.find(x => x.id === id).title}.nes`;
+          link.click();
+        });
     },
     playRom(game) {
-      this.$store.commit('setGameEmulated', game)
+      this.$store.commit('addGameData', game);
       this.$router.push('/emulate');
+    },
+    viewRom(game) {
+      this.$store.commit('addGameData', game);
+      this.$router.push('/game');
     }
   }
 };

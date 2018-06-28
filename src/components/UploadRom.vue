@@ -21,7 +21,7 @@
         <scrapper-selector ref="ScrapperSelector"></scrapper-selector>
     </tab-content>
     <tab-content title="Edit the data">
-      <game-data :gameData='this.gameData'/>
+      <game-data/>
     </tab-content>
      <template slot="footer" slot-scope="props">
        <div class=wizard-footer-left>
@@ -64,13 +64,21 @@ import EventBus from '../event-bus';
 
 export default {
   name: 'UploadRom',
-  components: { FileUpload, ScrapperSelector, loading, FormWizard, TabContent, WizardButton, GameData },
+  components: {
+    FileUpload,
+    ScrapperSelector,
+    loading,
+    FormWizard,
+    TabContent,
+    WizardButton,
+    GameData
+  },
   created() {
     EventBus.$on('file-added', this.onFileAdded);
     EventBus.$on('file-removed', this.onFileRemoved);
     EventBus.$on('file-uploaded', this.onFileUploaded);
   },
-  destroyed(){
+  destroyed() {
     EventBus.$off('file-added', this.onFileAdded);
     EventBus.$off('file-removed', this.onFileRemoved);
     EventBus.$off('file-uploaded', this.onFileUploaded);
@@ -95,7 +103,7 @@ export default {
     },
     gameData: {
       get() {
-        return this.$store.state.uploadRom.gameData;
+        return this.$store.state.gameData;
       }
     }
   },
@@ -106,7 +114,7 @@ export default {
     },
     handleTabChanged(prev, next) {
       this.currentState = next;
-      this.$refs.wizard.tabs.slice(1).forEach((tab) => {tab.checked = false})
+      this.$refs.wizard.tabs.slice(1).forEach((tab) => { tab.checked = false; });
       this.$refs.wizard.maxStep = next;
       if (next < 1) this.$store.commit('deselectGameData');
       if (next < 2) this.$store.commit('removeGameData');
@@ -122,7 +130,7 @@ export default {
       this.$store.dispatch('removedRomFile');
     },
     onFileUploaded(file, responseUpload) {
-      const rom = this.$store.state.uploadRom.gameData;
+      const rom = this.$store.state.gameData;
       rom.file = responseUpload.fileUrl;
       this.$http.post('roms/', rom)
         .then(() => {

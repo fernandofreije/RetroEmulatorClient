@@ -1,5 +1,5 @@
 <template>
- <div id v-if="gameData">
+ <div id="gameDataDiv" v-if="gameData">
     <h1>Game data</h1>
     <div id='images'>
       <div id="banner">
@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="container">
-      <div>
+      <div class="input-container">
         <label for=''>Title</label>
         <input
         required
@@ -69,6 +69,7 @@
         v-bind:placeholder="gameData.overview"/>
       </div>
     </div>
+    <button v-if="this.$route.path==='/game'" type="submit" @click="updateGame">Save</button>
   </div>
 </template>
 
@@ -76,26 +77,41 @@
 
 export default {
   name: 'GameData',
-  props: {
+  computed: {
     gameData: {
-      required: true
+      get() {
+        return this.$store.state.gameData;
+      }
     }
+  },
+  data() {
+    return {
+      error: ''
+    };
   },
   methods: {
     addGenre() {
       this.gameData.genres.push('');
     },
     removeGenre() {
-      this.gameData.genres.splice(-1,1)
+      this.gameData.genres.splice(-1, 1);
+    },
+    updateGame() {
+      this.$http.put(`roms/${this.gameData.id}`, this.gameData)
+        .then(() => this.$router.push('/'))
+        .catch((error) => {
+          this.error = error;
+        });
     }
-
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+#gameDataDiv {
+  padding-top: 10px;
+}
 
 hr {
   padding-top: 10px;
@@ -131,7 +147,7 @@ row {
 textarea {
   display:block;
   width: 80%;
-  height: 250px;
+  height: 170px;
   resize: none;
 }
 
@@ -148,14 +164,14 @@ textarea {
 
 #banner img{
   margin-left: auto;
-	margin-right: auto;
+  margin-right: auto;
   max-height: 100%;
   max-width: 100%;
 }
 
 
 .flip-container {
-	perspective: 1000px;
+  perspective: 1000px;
 }
 /* flip the pane when hovered */
 .flip-container:hover .flipper, .flip-container.hover .flipper {
@@ -163,44 +179,42 @@ textarea {
 }
 
 .flip-container, .front, .back {
-	width: 300px;
-	height: 374px;
-
+  width: 300px;
+  height: 374px;
 }
 
 .flip-container img {
   margin-left: auto;
-	margin-right: auto;
+  margin-right: auto;
   max-height: 100%;
   max-width: 100%;
 }
 
 /* flip speed goes here */
 .flipper {
-	transition: 0.6s;
-	transform-style: preserve-3d;
-	position: relative;
+  transition: 0.6s;
+  transform-style: preserve-3d;
+  position: relative;
 }
 
 /* hide back of pane during swap */
 .front, .back {
-	backface-visibility: hidden;
-
-	position: absolute;
-	top: 0;
-	left: 0;
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 /* front pane, placed above back */
 .front {
-	z-index: 2;
-	/* for firefox 31 */
-	transform: rotateY(0deg);
+  z-index: 2;
+  /* for firefox 31 */
+  transform: rotateY(0deg);
 }
 
 /* back, initially hidden pane */
 .back {
-	transform: rotateY(180deg);
+  transform: rotateY(180deg);
 }
 
 @media (max-width: 830px) {

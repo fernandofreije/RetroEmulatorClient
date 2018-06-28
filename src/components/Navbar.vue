@@ -5,7 +5,7 @@
       <router-link to="/"><img src="/static/images/logo.png"/></router-link>
     </li>
     <li>
-      <router-link to="">{{username}}</router-link>
+      <router-link to="/user">{{username}}</router-link>
     </li>
     <li>
       <router-link to="/uploadRom" v-on:click="logout">Upload</router-link>
@@ -23,8 +23,8 @@ export default {
   name: 'Navbar',
   computed: {
     username: {
-      get(){
-        return this.$store.state.user.username;
+      get() {
+        return this.$store.state.user.user;
       }
     }
   },
@@ -33,8 +33,7 @@ export default {
       this.$http.get('logout')
         .then(() => {
           this.$store.dispatch('logout');
-        })
-        .catch(error => console.log(error));
+        });
     }
   }
 };

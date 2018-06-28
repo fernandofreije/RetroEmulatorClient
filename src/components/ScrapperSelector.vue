@@ -9,7 +9,8 @@
       <input v-model="gameToSearch"/>
       <button v-on:click="fillGames(gameToSearch)">Search</button>
     </div>
-    <div id="show-selected" v-if="selected">You have selected: <strong>{{selected.title}} </strong></div>
+    <div id="show-selected"
+    v-if="selected">You have selected: <strong>{{selected.title}} </strong></div>
     <vue-good-table
       @on-row-click="rowSelected"
       :columns="columns"
@@ -48,11 +49,11 @@ export default {
     EventBus.$on('file-added', this.onFileAdded);
     EventBus.$on('file-removed', this.onFileRemoved);
   },
-  destroyed(){
+  destroyed() {
     EventBus.$off('file-added', this.onFileAdded);
     EventBus.$off('file-removed', this.onFileRemoved);
   },
-  data(){
+  data() {
     return {
       label: 'Getting game candidates data...',
       gameToSearch: '',
@@ -78,7 +79,7 @@ export default {
       ],
       games: [],
       loading: false
-    }
+    };
   },
   computed: {
     selected: {
@@ -104,7 +105,6 @@ export default {
       } else this.games = ['No games uploaded'];
     },
     rowSelected(params) {
-      console.log(params);
       this.$store.commit('selectGameData', params.row);
       const gameId = this.$store.state.uploadRom.selectedGame.id;
       this.loading = true;
@@ -118,13 +118,10 @@ export default {
         }
         );
     },
-    markSelected(event){
-      event.target.add
-    },
-    onFileAdded(file){
+    onFileAdded(file) {
       this.fillGames(file.name);
     },
-    onFileRemoved(){
+    onFileRemoved() {
       this.games = [];
     }
   }

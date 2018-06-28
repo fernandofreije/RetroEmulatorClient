@@ -12,7 +12,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #author {
-  text-align: right; 
+  text-align: right;
   padding-right: 2em;
 }
 </style>
