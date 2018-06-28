@@ -40,7 +40,7 @@ export default {
   data() {
     return {
       dropzoneOptions: {
-        url: `this.$http.defaults.baseURL${'roms/upload'}`,
+        url: `${this.$http.defaults.baseURL}roms/upload`,
         maxFiles: 1,
         maxFilesize: 0.5,
         addRemoveLinks: true,
