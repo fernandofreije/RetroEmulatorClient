@@ -13,7 +13,7 @@
     <li class='logout'>
       <router-link to="/login" v-on:click="logout">Logout</router-link>
     </li>
-   
+
   </ul>
 </nav>
 </template>
@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     logout() {
-      this.$http.get('http://localhost:8080/logout')
+      this.$http.get('logout')
         .then(() => {
           this.$store.dispatch('logout');
         })

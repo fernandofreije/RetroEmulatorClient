@@ -6,7 +6,7 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import VueGoodTable from 'vue-good-table';
 import 'vue-good-table/dist/vue-good-table.css';
 import 'vue2-animate/dist/vue2-animate.min.css';
-import VModal from 'vue-js-modal';
+import VeeValidate from 'vee-validate';
 import Meta from 'vue-meta';
 import App from './App';
 import router from './router';
@@ -15,6 +15,7 @@ import store from './store/store';
 
 Vue.config.productionTip = false;
 axios.defaults.withCredentials = true;
+axios.defaults.baseURL = 'http://localhost:8080/';
 axios.interceptors.response.use(
   response => response,
   (error) => {
@@ -24,7 +25,7 @@ axios.interceptors.response.use(
 Vue.prototype.$http = axios;
 Vue.use(VueSweetalert2);
 Vue.use(VueGoodTable);
-Vue.use(VModal);
+Vue.use(VeeValidate);
 Vue.use(Meta);
 Vue.use(require('vue-moment'));
 

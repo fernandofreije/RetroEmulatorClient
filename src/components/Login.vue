@@ -1,15 +1,15 @@
 <template>
  <div>
    <img class='full-logo' src='/static/images/full-logo.png'/>
-   <nav id='register'><router-link to="/register">Sign Up</router-link></nav>
+   <nav id='register'><router-link id='to-register' to="/register">Sign Up</router-link></nav>
    <form class="login" @submit.prevent="login">
      <h1>Sign In</h1>
      <label>Username</label>
-     <input required v-model="username" type="text" placeholder="Username"/>
+     <input required id="user-input" v-model="username" type="text" placeholder="Username"/>
      <label>Password</label>
-     <input required v-model="password" type="password" placeholder="Password"/>
+     <input required id="pass-input" v-model="password" type="password" placeholder="Password"/>
      <hr/>
-     <button type="submit">Login</button>
+     <button id="login-button" type="submit">Login</button>
    </form>
    <p v-if="error" class="error">Bad login information </p>
  </div>
@@ -28,7 +28,7 @@ export default {
   methods: {
     login() {
       const { username, password } = this;
-      this.$http.post('http://localhost:8080/login', { login: username, password })
+      this.$http.post('login', { login: username, password })
         .then(response => this.$store.dispatch('login', response.data.user))
         .catch((error) => { this.error = error; });
     }
@@ -45,13 +45,6 @@ export default {
 .full-logo {
   max-width: 90%;
   margin-top: 60px;
-}
-
-.logout {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  padding: 3em;
 }
 
 @media (max-width: 600px) {

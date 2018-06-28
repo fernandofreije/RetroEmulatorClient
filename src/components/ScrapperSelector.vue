@@ -22,15 +22,15 @@
         perPage: 5,
       }"
       styleClass="vgt-table bordered">
-        <template slot="table-row" slot-scope="props"> 
+        <template slot="table-row" slot-scope="props">
           <span v-if="props.column.field == 'age'">
-            <span style="font-weight: bold; color: blue;">{{props.row.age}}</span> 
+            <span style="font-weight: bold; color: blue;">{{props.row.age}}</span>
           </span>
           <span v-else>
             {{props.formattedRow[props.column.field]}}
           </span>
         </template>
-    </vue-good-table>       
+    </vue-good-table>
   </div>
 </template>
 
@@ -91,7 +91,7 @@ export default {
     fillGames(name) {
       if (name) {
         this.loading = true;
-        this.$http.get(`http://localhost:8080/scrap/gameList?name=${name}`)
+        this.$http.get(`scrap/gameList?name=${name}`)
           .then((response) => {
             this.games = response.data;
             this.loading = false;
@@ -108,7 +108,7 @@ export default {
       this.$store.commit('selectGameData', params.row);
       const gameId = this.$store.state.uploadRom.selectedGame.id;
       this.loading = true;
-      this.$http.get(`http://localhost:8080/scrap/game?id=${gameId}`)
+      this.$http.get(`scrap/game?id=${gameId}`)
         .then((response) => {
           this.$store.dispatch('getGameData', response.data);
           this.loading = false;

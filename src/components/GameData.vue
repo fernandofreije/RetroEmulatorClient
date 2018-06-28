@@ -1,5 +1,5 @@
 <template>
- <div v-if="gameData">
+ <div id v-if="gameData">
     <h1>Game data</h1>
     <div id='images'>
       <div id="banner">
@@ -216,7 +216,7 @@ textarea {
   #banner {
     margin-top: 30%;
   }
-  
+
   input {
     margin: 5%;
   }

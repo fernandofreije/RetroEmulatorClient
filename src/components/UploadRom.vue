@@ -124,12 +124,12 @@ export default {
     onFileUploaded(file, responseUpload) {
       const rom = this.$store.state.uploadRom.gameData;
       rom.file = responseUpload.fileUrl;
-      this.$http.post('http://localhost:8080/roms/', rom)
+      this.$http.post('roms/', rom)
         .then(() => {
           this.loading = false;
           this.$swal('Congratulations', 'romUploaded', 'success').then(() => {
             this.restartForm();
-            this.$router.push('/');  
+            this.$router.push('/');
           });
         })
         .catch(() => {

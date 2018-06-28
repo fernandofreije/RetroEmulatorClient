@@ -45,9 +45,9 @@ export default {
   components: { GridLayout, GridItem, loading},
   mounted(){
     this.loading=true;
-    this.$http.get('http://localhost:8080/roms/')
-      .then((response) => {      
-        this.$store.commit('setUserRoms', response.data);       
+    this.$http.get('roms/')
+      .then((response) => {
+        this.$store.commit('setUserRoms', response.data);
         this.$store.commit('setLayout', this.generateLayout());
         this.loading=false;
       })
@@ -95,13 +95,13 @@ export default {
     },
     deleteRom(id) {
       console.log(id);
-      this.$http.delete(`http://localhost:8080/roms/${id}`)
+      this.$http.delete(`roms/${id}`)
       .then ((response) => {
         this.$store.dispatch('deleteRom', id);
       })
     },
     downloadRom(id) {
-      this.$http.get(`http://localhost:8080/roms/${id}/download`)
+      this.$http.get(`roms/${id}/download`)
         .then((response) => {
           let blob = new Blob([response.data], { type: 'application/octet-stream' } )
           let link = document.createElement('a')
@@ -132,7 +132,7 @@ export default {
   background-color:grey;
   width: 250px;
   height: 310px;
-  
+
 }
 
 .image-container {
@@ -165,6 +165,6 @@ export default {
   top: 90%;
   left: 80%;
   transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);  
+  -ms-transform: translate(-50%, -50%);
 }
 </style>

@@ -32,7 +32,7 @@
     <div id="scrollText">
       {{game.overview}}
     </div>
-  </div>    
+  </div>
 </div>
 </template>
 
@@ -54,7 +54,7 @@ export default {
     }
   },
   mounted(){
-    this.$http.get(`http://localhost:8080/roms/${this.game.id}/download`, {responseType: 'arraybuffer'})
+    this.$http.get(`roms/${this.game.id}/download`, {responseType: 'arraybuffer'})
       .then( (response) => {
         nes = new NesJs.Nes();
         nes.setRom(new NesJs.Rom(response.data));
@@ -69,6 +69,8 @@ export default {
   },
   destroyed(){
     nes.stop();
+    window.onkeydown = null;
+    window.onkeyup = null;
   }
 };
 </script>
