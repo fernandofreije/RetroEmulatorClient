@@ -12,10 +12,9 @@ import App from './App';
 import router from './router';
 import store from './store/store';
 
-
 Vue.config.productionTip = false;
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://localhost:8080/';
+axios.defaults.baseURL = process.env.API_URL;
 axios.interceptors.response.use(
   response => response,
   (error) => {

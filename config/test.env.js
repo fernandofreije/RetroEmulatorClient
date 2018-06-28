@@ -4,5 +4,5 @@ const devEnv = require('./dev.env')
 
 module.exports = merge(devEnv, {
   NODE_ENV: '"testing"',
-  API_URL: 'http://localhost:8080/'
+  API_URL: '"https://rom-manager-api.herokuapp.com/"'
 })
