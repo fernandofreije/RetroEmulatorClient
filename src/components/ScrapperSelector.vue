@@ -7,7 +7,7 @@
     <div id="search-other-game" >
       <span>Search other game</span>
       <input v-model="gameToSearch"/>
-      <button v-on:click="fillGames(gameToSearch)">Search</button>
+      <button @click:click="fillGames(gameToSearch)">Search</button>
     </div>
     <div id="show-selected"
     v-if="selected">You have selected: <strong>{{selected.title}} </strong></div>

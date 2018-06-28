@@ -8,10 +8,10 @@
       <router-link to="/user">{{username}}</router-link>
     </li>
     <li>
-      <router-link to="/uploadRom" v-on:click="logout">Upload</router-link>
+      <router-link to="/uploadRom">Upload</router-link>
     </li>
     <li class='logout'>
-      <router-link to="/login" v-on:click="logout">Logout</router-link>
+      <router-link to="/login" @click.native="logout">Logout</router-link>
     </li>
 
   </ul>

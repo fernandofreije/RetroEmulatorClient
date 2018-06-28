@@ -82,7 +82,10 @@ export default {
     registerUser() {
       const { user, email, password } = this;
       this.$http.post('register', { user, email, password })
-        .then(response => this.$store.dispatch('login', response.data.user))
+        .then((response) => {
+          this.$http.post('login', { login: user, password })
+            .then(() => this.$store.dispatch('login', response.data.user));
+        })
         .catch((error) => {
           this.error = error;
         });
