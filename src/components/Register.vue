@@ -5,7 +5,7 @@
     <router-link to="/login">Back to Sign In</router-link>
    </nav>
    <form class="register" @submit.prevent="validateBeforeSubmit()">
-     <h1>Sign In</h1>
+     <h1>Sign Up</h1>
      <div class='input-container'>
       <label>Username</label>
       <input v-validate="'required'"
