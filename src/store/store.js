@@ -31,7 +31,7 @@ export default new Vuex.Store({
   },
   mutations: {
     updateUsername(state, user) {
-      state.user.user = user;
+      state.user.username = user;
     },
     updateEmail(state, email) {
       state.user.email = email;
@@ -39,14 +39,14 @@ export default new Vuex.Store({
     loadUserData(state, payload) {
       state.user.isAuth = true;
       state.user.id = payload.id;
-      state.user.user = payload.user;
+      state.user.username = payload.user;
       state.user.email = payload.email;
       state.user.admin = payload.admin;
     },
     unloadUserData(state) {
       state.user.isAuth = false;
       state.user.id = null;
-      state.user.user = null;
+      state.user.username = null;
       state.user.email = null;
       state.user.admin = false;
     },
@@ -107,6 +107,11 @@ export default new Vuex.Store({
     login(context, response) {
       context.commit('loadUserData', response);
       context.commit('resetUploadRom');
+      router.push('/');
+    },
+    updateUserData(context, response) {
+      context.commit('updateUsername', response.user);
+      context.commit('updateEmail', response.email);
       router.push('/');
     },
     logout(context) {

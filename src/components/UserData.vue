@@ -12,7 +12,7 @@
       <label>Email</label>
       <input v-validate="'required'"
       v-model="email" name="email"
-      type="email" placeholder="Username"/>
+      type="email" placeholder="Email"/>
      </div>
      <div class='input-container'>
       <label>Password</label>
@@ -67,7 +67,7 @@ export default {
     },
     o_user: {
       get() {
-        return this.$store.state.user.user;
+        return this.$store.state.user.username;
       }
     },
     changed: {
@@ -101,13 +101,13 @@ export default {
       const { user, email, password } = this;
       if (password !== '') {
         this.$http.put('changeData', { user, email, password })
-          .then(() => this.$router.push('/'))
+          .then(() => this.$store.dispatch('updateUserData', { user, email }))
           .catch((error) => {
             this.error = error;
           });
       } else {
         this.$http.put('changeData', { user, email })
-          .then(() => this.$router.push('/'))
+          .then(() => this.$store.dispatch('updateUserData', { user, email }))
           .catch((error) => {
             this.error = error;
           });
